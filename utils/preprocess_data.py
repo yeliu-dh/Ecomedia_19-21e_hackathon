@@ -148,7 +148,13 @@ def plot_frequent(df,top_n=None, col="lieu_propre", to_dropna=True):
         plt.show()
         
     else :
-        sns.countplot(data=df, y=col, palette='viridis')
+        df=df.sort_values(by=col, ascending=False)
+        # y_min=int(df[col].min())
+        # y_max=int(df[col].max())
+        # order = list(range(y_min, y_max))
+        order = list(range(1, 21))
+
+        sns.countplot(data=df, y=col,order=order,palette='viridis')
         plt.title(f"Répartition de {col}")
         plt.show()    
 
@@ -162,6 +168,7 @@ def preprocess_loc_date(df,output_path="data/gallica_data_cheval_propre.csv"):
           f"si parenthèse+pas une position : prend le lieu entre parenthèses;\n"
           f"si parenthèse + une position : prend ce qui est devant parenthèses;\n"
           f"pas de parenthèse: prend ce qui est devant le virgule.\n\n"
+          
           f'- date=> nouvelle col: date propre:\n'
           f"si dates romaines : transformer en chiffre arabes, et puis en sicèle XX;\n"
           f"si dates arabes au forme de XXXX, extraire XXXX, les transforme en siècles XX\n"
